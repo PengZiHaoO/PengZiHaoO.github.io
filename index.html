@@ -142,6 +142,107 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-CMake快速开始" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2022/08/21/CMake%E5%BF%AB%E9%80%9F%E5%BC%80%E5%A7%8B/">CMake快速开始</a>
+    </h1>
+  
+
+        
+        <a href="/2022/08/21/CMake%E5%BF%AB%E9%80%9F%E5%BC%80%E5%A7%8B/" class="archive-article-date">
+  	<time datetime="2022-08-21T14:45:23.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-08-21</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h4 id="Build-with-CMake-Build-with-Confidence"><a href="#Build-with-CMake-Build-with-Confidence" class="headerlink" title="Build with CMake. Build with Confidence."></a>Build with CMake. Build with Confidence.</h4><p>CMake是一款可以用简单的语句描述编译过程的编译工具.</p>
+<h4 id="CMake的基本工作流程"><a href="#CMake的基本工作流程" class="headerlink" title="CMake的基本工作流程"></a>CMake的基本工作流程</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">CMakeLists.txt --&gt; cmake --&gt; Makefile --&gt; make --&gt; exe</span><br></pre></td></tr></table></figure>
+
+<h4 id="编译单一文件"><a href="#编译单一文件" class="headerlink" title="编译单一文件"></a>编译单一文件</h4><p>以helloworld为例</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    std::cout &lt;&lt; <span class="string">&quot;hello world\n&quot;</span>;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>此时的文件组织结构为</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">helloworld</span><br><span class="line">├── build</span><br><span class="line">├── CMakeLists.txt</span><br><span class="line">└── helloworld.cpp</span><br></pre></td></tr></table></figure>
+
+<p>首先在需要编译的文件目录下创建CMakeLists.txt</p>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#build所需要的最低CMake版本号</span></span><br><span class="line"><span class="keyword">cmake_minimum_required</span>(VERSION <span class="number">3.16</span>.<span class="number">3</span>)</span><br><span class="line"><span class="comment">#设置project name</span></span><br><span class="line"><span class="keyword">project</span>(helloworld)</span><br><span class="line"><span class="comment">#通过指定的源文件生成name为project name的可执行文件</span></span><br><span class="line"><span class="comment">#其基本形式为add_executable([name] [source...])</span></span><br><span class="line"><span class="keyword">add_executable</span>(<span class="variable">$&#123;PROJECT_NAME&#125;</span> helloworld.cpp)</span><br></pre></td></tr></table></figure>
+
+<p>cmake命令的使用</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cmake [options] -S &lt;path-to-source&gt; -B &lt;path-to-build&gt;</span><br></pre></td></tr></table></figure>
+<p>然后使用cmake命令生成Makefile,cmake有两参数需要指定源文件路径以及build文件的路径,通常情况下我们首先在当前目录下创建文件夹build为path-to-build,当前工作区的目录为path-to-source.</p>
+<p>执行完cmake命令后,在build目录下执行make即可生成helloworld可执行文件.继续在此目录下.&#x2F;helloworld运行.</p>
+<h4 id="就这"><a href="#就这" class="headerlink" title="就这?"></a>就这?</h4><p>当然远不如此.这样还不足以面对源文件保存在不同子目录的情形.</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">build</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/文档//" class="article-tag-list-link color3">文档</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2022/08/21/CMake%E5%BF%AB%E9%80%9F%E5%BC%80%E5%A7%8B/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-电赛纪实" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -583,6 +684,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">电子</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">build</a>
               </li>
             
             <div class="clearfix"></div>
