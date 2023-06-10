@@ -146,6 +146,173 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-实习纪实" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2023/06/10/%E5%AE%9E%E4%B9%A0%E7%BA%AA%E5%AE%9E/">实习纪实</a>
+    </h1>
+  
+
+        
+        <a href="/2023/06/10/%E5%AE%9E%E4%B9%A0%E7%BA%AA%E5%AE%9E/" class="archive-article-date">
+  	<time datetime="2023-06-10T05:17:07.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2023-06-10</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="记录实习过程"><a href="#记录实习过程" class="headerlink" title="记录实习过程"></a>记录实习过程</h2><p>已经实习了一个月左右的时间. 在实习的每天早上都会对前一天的工作进行总结, 借此来记录自己在实习中学习到的知识.</p>
+<h2 id="TASK1-通过USB-bridge-controller读取硬盘相关信息-序列号-型号-固件版本-协议支持等"><a href="#TASK1-通过USB-bridge-controller读取硬盘相关信息-序列号-型号-固件版本-协议支持等" class="headerlink" title="TASK1 通过USB bridge controller读取硬盘相关信息(序列号, 型号, 固件版本, 协议支持等)"></a>TASK1 通过USB bridge controller读取硬盘相关信息(序列号, 型号, 固件版本, 协议支持等)</h2><p>通过USB bridge controller读取硬盘相关信息, 最终给fboxd(实习所在公司的一款跨平台数字取证软件)添加这个功能.</p>
+<h3 id="0504"><a href="#0504" class="headerlink" title="0504"></a>0504</h3><pre><code>配置好了工作中需要用到的环境, 下载了CrystalDiskInfo的源码并编译通过.
+</code></pre>
+<h3 id="0505"><a href="#0505" class="headerlink" title="0505"></a>0505</h3><pre><code>调试CrystalDiskInfo. 了解MFC程序的执行过程，找到了程序入口.
+
+了解了JMicron, RealTek, Asmedia的USB芯片的检测命令.
+</code></pre>
+<h3 id="0506"><a href="#0506" class="headerlink" title="0506"></a>0506</h3><pre><code>阅读了CrystalDiskInfo真正实现功能的代码, 知道了程序运行的流程.
+
+找到了真正实现功能的系统调用并了解了相关系统调用的信息.
+</code></pre>
+<h3 id="0508"><a href="#0508" class="headerlink" title="0508"></a>0508</h3><pre><code>查找了Jmicron, RealTek, Asmedia主流USB芯片都支持SCSI协议, 但是支持不同的修订版.
+
+阅读了SCSI命令参考手册.
+
+了解了Cdb的结构和一些控制信息的作用.
+
+写了一个demo直接通过physicalDriveId, scsiPort, scsiTargetId读取设备信息.
+</code></pre>
+<h3 id="0509"><a href="#0509" class="headerlink" title="0509"></a>0509</h3><pre><code>拷贝了Fboxd源码未编译成功.
+</code></pre>
+<h3 id="0510"><a href="#0510" class="headerlink" title="0510"></a>0510</h3><pre><code>成功编译了Fboxd源码并进行了调试, 调试中找到了实现读取硬盘相关信息的相关函数, 要实现通过USB芯片读取硬盘的SN，MDL, FW只需要在操作系统识别出其为USB存储设备时, 给USB Device 发送相关的SCSI命令就可以实现所需要的功能.
+</code></pre>
+<h3 id="0511"><a href="#0511" class="headerlink" title="0511"></a>0511</h3><pre><code>在Fboxd原有程序上添加了针对JMS583读取相关信息的功能, 但是只添加了JMS583. 成功读取出硬盘的相关信息.
+</code></pre>
+<h3 id="0512"><a href="#0512" class="headerlink" title="0512"></a>0512</h3><pre><code> 在Fboxd原有程序添加了Jmicron, RealTek, Asmedia USB birdge controller 读取硬盘信息的程序, 在windows上可以实现所需要的功能.
+</code></pre>
+<h3 id="0515"><a href="#0515" class="headerlink" title="0515"></a>0515</h3><pre><code>安装虚拟机, 安装镜像文件, 选择的系统为Ubuntu 20.04, 开发环境的Linux内核版本为3.14, 尝试在Ubuntu 20.04上编译内核3.14, 但是很多3.14版本的内核编译工具都被弃用了, 没能编译成功.
+</code></pre>
+<h3 id="0516"><a href="#0516" class="headerlink" title="0516"></a>0516</h3><pre><code>直接下载了ubuntu 14.04, 编译内核3.14, 并设置默认内核版本3.14, 在linux上移植程序, 但是还有一些小问题.
+</code></pre>
+<h3 id="0517"><a href="#0517" class="headerlink" title="0517"></a>0517</h3><pre><code>在校考试, 无进展.
+</code></pre>
+<h3 id="0518"><a href="#0518" class="headerlink" title="0518"></a>0518</h3><pre><code>在校考试, 无进展.
+</code></pre>
+<h3 id="0519"><a href="#0519" class="headerlink" title="0519"></a>0519</h3><pre><code>在Linux实现了通过USB bridge controller读取硬盘相关信息, 并将代码进行优化, 提高其可阅读性.
+</code></pre>
+<h2 id="TASK-学习The-Sleuth-Kit的文件读取方式-并将原fboxd文件读取方式进行更改"><a href="#TASK-学习The-Sleuth-Kit的文件读取方式-并将原fboxd文件读取方式进行更改" class="headerlink" title="TASK 学习The Sleuth Kit的文件读取方式, 并将原fboxd文件读取方式进行更改"></a>TASK 学习The Sleuth Kit的文件读取方式, 并将原fboxd文件读取方式进行更改</h2><p>fboxd原来读取文件的方式是通过挂载文件系统, 实现文件列表的扫描, 文件数据提取和复制. 但是存在一些问题, 现在需要以不挂载文件系统的方式实现以上功能.</p>
+<h3 id="0522"><a href="#0522" class="headerlink" title="0522"></a>0522</h3><pre><code>在linux上编译了The sleuth kit(一款开源的分析镜像文件的数字取证软件)的源码.
+Tsk的主要功能是通过是同afflib， ewflib实现的, 最终要实现Tsk下各种tools的功能.
+</code></pre>
+<h3 id="0523"><a href="#0523" class="headerlink" title="0523"></a>0523</h3><pre><code>考试, 无进展.
+</code></pre>
+<h3 id="0524"><a href="#0524" class="headerlink" title="0524"></a>0524</h3><pre><code>考试, 无进展.
+</code></pre>
+<h3 id="0525"><a href="#0525" class="headerlink" title="0525"></a>0525</h3><pre><code>调试了Tsk下的tools,  主要调试了fls. 
+
+fls工作流程open img -&gt; disk img以文件系统方式进行处理 -&gt; fls.
+
+fls以文件系统的组织结构通过root_inode递归的寻找dir下的dir_entry, 以此实现文件列表的扫描. 
+</code></pre>
+<h3 id="0526"><a href="#0526" class="headerlink" title="0526"></a>0526</h3><pre><code>继续调试了Tsk中fls, 观察fls的函数调用关系, 函数调用关系非常复杂.
+fls显示打开磁盘映像文件, 然后以文件系统的方式打开磁盘映像文件, 通过文件系统查找文件, dir.
+于是去了解了一些文件系统(FAT, NTFS, EXT).
+</code></pre>
+<h3 id="0529"><a href="#0529" class="headerlink" title="0529"></a>0529</h3><pre><code>尝试在fboxd中添加读取img信息的代码, 未完.
+</code></pre>
+<h3 id="0530"><a href="#0530" class="headerlink" title="0530"></a>0530</h3><pre><code>fboxd已经有读取磁盘信息和检测文件系统的功能, 进行了调试.
+再次调试Tsk中fls功能, 主要了解在读取了文件系统的信息后如何通过文件系统的信息查找dir和dentry中的文件信息.
+</code></pre>
+<h3 id="0601"><a href="#0601" class="headerlink" title="0601"></a>0601</h3><pre><code>整理了Tsk中文件列表扫描的流程并将其整理成文档.
+阅读fboxd/TaskImagingF2F.cpp(文件到文件的复制的功能), 准备更改其实现方式.
+</code></pre>
+<h3 id="0602"><a href="#0602" class="headerlink" title="0602"></a>0602</h3><pre><code>考试.
+</code></pre>
+<h3 id="0605"><a href="#0605" class="headerlink" title="0605"></a>0605</h3><pre><code>尝试将tsk以静态库的方式加入fboxd中, 未成功.
+</code></pre>
+<h3 id="0606"><a href="#0606" class="headerlink" title="0606"></a>0606</h3><pre><code>将libtsk加入fboxd中， 并编译通过.
+Tsk中fls默认是将dir中信息打印出来, 定义了dentry数据结构将fls的信息保存起来.
+在fboxd/CTaskImagingF2F中加入FileList, 工作方式与Tsk/fls保持一致,
+open_img -&gt; fs_open -&gt; tsk_fls .
+</code></pre>
+<h3 id="0607"><a href="#0607" class="headerlink" title="0607"></a>0607</h3><pre><code>0606将文件列表的信息保存在dentry数据结构中可能会占用大量内存, 并且需要扫面的源文件的文件目录项数量是未知的可能会导致OOM, 导致程序奔溃. 需要另寻他法.
+</code></pre>
+<h3 id="0608"><a href="#0608" class="headerlink" title="0608"></a>0608</h3><pre><code>将libtsk的代码更改了一下, 重新编译加入fboxd.
+tsk_fs_fls参数列表加入了一个回调函数, 通过回调函数对每一条dentry进行操作.
+这样就不会占用大量内存了, 而是都读一条dentry处理一条dentry. 
+但是又遇到了其他问题, fboxd/TaskImagingF2F::SearchFile传入的源文件路径是卷名称, 而Tsk接受的参数为设备驱动器号.
+</code></pre>
+<h3 id="0609"><a href="#0609" class="headerlink" title="0609"></a>0609</h3><pre><code>通过winapi将volume path转换成设备驱动号, 成功进行文件列表扫描. 
+又发现新问题, 如何如何将读取原文件路径, 并创建新的文件路径和复制文件.
+</code></pre>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">C++实习</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/随笔//" class="article-tag-list-link color3">随笔</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2023/06/10/%E5%AE%9E%E4%B9%A0%E7%BA%AA%E5%AE%9E/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-烦" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -1119,6 +1286,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">电子</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">C++实习</a>
               </li>
             
             <div class="clearfix"></div>
