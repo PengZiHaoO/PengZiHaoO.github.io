@@ -249,6 +249,48 @@ tsk_fs_fls参数列表加入了一个回调函数, 通过回调函数对每一�
 <h3 id="0609"><a href="#0609" class="headerlink" title="0609"></a>0609</h3><pre><code>通过winapi将volume path转换成设备驱动号, 成功进行文件列表扫描. 
 又发现新问题, 如何如何将读取原文件路径, 并创建新的文件路径和复制文件.
 </code></pre>
+<h3 id="0612"><a href="#0612" class="headerlink" title="0612"></a>0612</h3><pre><code>通过dentry的inum读取到文件内容, tsk是通过文件的inum将文件在命令行打印出.
+对tsk的源码进行更改, 使其将每次从文件中读取的内容保存为文件.
+实现了将磁盘上的文件到指定设备路径上的拷贝, 但是编码方式有些问题, 不能够完好的显示.
+构思了如何实现, 将文件保存至指定磁盘.
+原始的保存文件至指定磁盘是通过挂载文件系统实现的, 原来已经保存了, 指定磁盘的volume,
+可以将volume转换为设备路径名. 再结合原磁盘上的文件层次， 指定要保存的文件路径.
+</code></pre>
+<h3 id="0613"><a href="#0613" class="headerlink" title="0613"></a>0613</h3><pre><code>基本实现文件的copy, 并且文件层次和源文件保持一致.
+几点问题, 读写速度太慢. 出现字符编码问题.
+</code></pre>
+<h3 id="0614"><a href="#0614" class="headerlink" title="0614"></a>0614</h3><pre><code>给fboxd添加对磁盘映像文件的分析, 实现了在windows上分析在转载了linux文件系统的磁盘映像的分析.
+</code></pre>
+<h3 id="0615"><a href="#0615" class="headerlink" title="0615"></a>0615</h3><pre><code>exe ppt 文档等文件copy出错, 视频pdf没有出出错.
+</code></pre>
+<h3 id="0616"><a href="#0616" class="headerlink" title="0616"></a>0616</h3><pre><code>文件拷贝出错是因为有UNALLOC的文件与ALLOC重名, 对同一个文件进行了重复写, 导致文件不可访问.
+现在加上了对同名未ALLOC的文件的操作, 在文件名前加上创建它的日期, 使其不重名.
+现在测试了NTFS FAT EXT2/4(磁盘映像文件) 没有问题.
+但是现在缺少了与前端的数据交互,  如速率容量时间等.
+</code></pre>
+<h3 id="0619"><a href="#0619" class="headerlink" title="0619"></a>0619</h3><pre><code>基本完成了, 使用tsk实现TaskImagingF2F.cpp中的文件列表扫描, 文件数据提取与拷贝.
+与前端的交互也有了, 但是怎么怎么判断task是否正确完成, 仍然有问题.
+下一步文件的筛选, 保留所需要的文件.
+</code></pre>
+<h3 id="0620"><a href="#0620" class="headerlink" title="0620"></a>0620</h3><pre><code>查找内存泄露相关资料, 学习排查方法并应用.
+查找内存泄露, 修复了内存泄露, 现在fboxd运行时峰值内存占用也就几十MiB.
+对软连接进行处理, 保留原有文件名称, 但是文件内容为指向的文件的路径.
+</code></pre>
+<h3 id="0621"><a href="#0621" class="headerlink" title="0621"></a>0621</h3><pre><code>计算每一个文件的hash值来降低文件冗余, 稳定运行时内存使用在10MiB.
+
+TODO: 计算文件hash值
+      sqlite with cpp
+</code></pre>
+<h3 id="0625"><a href="#0625" class="headerlink" title="0625"></a>0625</h3><pre><code>使用SQLite保存文件hash value, 每次验证文件hash是否已经在表中存在, 不存在即插入, 并保存当前文件; 当前文件hash已经在表中存在, 不保存当前文件.
+</code></pre>
+<h3 id="0627"><a href="#0627" class="headerlink" title="0627"></a>0627</h3><pre><code>考试.
+</code></pre>
+<h3 id="0628"><a href="#0628" class="headerlink" title="0628"></a>0628</h3><pre><code>阅读并调试了FastCopy的源码, 观察其是如何实现fast copy的, 通过多个线程实现并行copy.
+</code></pre>
+<h3 id="0629"><a href="#0629" class="headerlink" title="0629"></a>0629</h3><pre><code>撰写fboxd的说明文档, 准备交接.
+</code></pre>
+<h3 id="0630"><a href="#0630" class="headerlink" title="0630"></a>0630</h3><pre><code>交接工作
+</code></pre>
 
       
 
@@ -1281,15 +1323,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">C++实习</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">concurrence</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">电子</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">C++实习</a>
               </li>
             
             <div class="clearfix"></div>
