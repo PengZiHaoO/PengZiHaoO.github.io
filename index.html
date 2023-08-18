@@ -146,6 +146,122 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-IIC和SPI" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2023/08/18/IIC%E5%92%8CSPI/">IIC和SPI</a>
+    </h1>
+  
+
+        
+        <a href="/2023/08/18/IIC%E5%92%8CSPI/" class="archive-article-date">
+  	<time datetime="2023-08-18T08:12:52.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2023-08-18</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="IIC"><a href="#IIC" class="headerlink" title="IIC"></a>IIC</h2><h3 id="构成"><a href="#构成" class="headerlink" title="构成"></a>构成</h3><p>多主多从<br>IIC总线 两根线<br>时钟线SCL 数据线SDA<br>总线处于空闲状态时, SCL, SDA均处于高电平状态</p>
+<p><img src="/src/IIC.png" alt="IIC结构"></p>
+<h3 id="时序"><a href="#时序" class="headerlink" title="时序"></a>时序</h3><p>起始位</p>
+<pre><code>时钟信号SCL为高电平期间, 数据线SDA从高电平向低电平的跳变
+</code></pre>
+<p>结束位</p>
+<pre><code>时钟信号SCL为高电平期间, 数据线SDA从高电平向低电平的跳变
+</code></pre>
+<p>信号1</p>
+<pre><code>时钟信号SCL为高电平期间, 数据线SDA始终为高电平
+</code></pre>
+<p>信号0</p>
+<pre><code>时钟信号SCL为高电平期间, 数据线SDA始终为低电平
+</code></pre>
+<h3 id="数据帧的构成"><a href="#数据帧的构成" class="headerlink" title="数据帧的构成"></a>数据帧的构成</h3><p>Start + Device Address(7bit) + R&#x2F;W(0 for read, 1 for write) + N&#x2F;ACK (0 for ACK, 1 for NACK, slaver to master) + N * (Data(8bit) + N&#x2F;ACK) + Stop</p>
+<h2 id="SPI"><a href="#SPI" class="headerlink" title="SPI"></a>SPI</h2><h3 id="构成-1"><a href="#构成-1" class="headerlink" title="构成"></a>构成</h3><p>一从多主<br>SPI总线 四根线<br>时钟线SCK 发送数据线 MOSI 接受数据线 MISO 片选信号 SS</p>
+<p><img src="/src/SPI.png" alt="SPI结构"></p>
+<h3 id="时序-1"><a href="#时序-1" class="headerlink" title="时序"></a>时序</h3><p>SPI定义了四种数据传输模式</p>
+<p>时钟电平定义了时钟空闲状态下的电平</p>
+<pre><code>高电平和低电平
+</code></pre>
+<p>时钟相位定义了数据采样和传输的时机</p>
+<pre><code>数据在时钟信号的第一个边沿(上升沿或下降沿)进行采样, 数据在第二个边沿进行传输
+数据在时钟信号的第二个边沿进行采样, 数据在第一个边沿进行传输
+</code></pre>
+<p>时钟电平和时钟相位共同组成了四种数据传输模式</p>
+<h3 id="数据帧的构成-1"><a href="#数据帧的构成-1" class="headerlink" title="数据帧的构成"></a>数据帧的构成</h3><p>SPI没有明确规定数据帧的长度, 具体的规定参照相应芯片的数据手册</p>
+<p>SPI协议发送一帧数据的基本流程, 初始化SPI(传输模式), 置位SS, 选择Slave, 读写数据. </p>
+<h2 id="SPI和IIC的对比"><a href="#SPI和IIC的对比" class="headerlink" title="SPI和IIC的对比"></a>SPI和IIC的对比</h2><h3 id="区别"><a href="#区别" class="headerlink" title="区别"></a>区别</h3><p>传输速率: SPI通信的速率通常比I2C高,可以达到更高的带宽和数据传输速度.<br>设备数量: I2C支持多主机模式,可以连接多个设备,而SPI通信一般是点对点连接,只能连接一个从设备.<br>连接复杂性: I2C通信只需要两根线进行传输,连接相对简单,而SPI通信需要多根线(至少4根),连接相对复杂一些.<br>功耗:I2C通信通常具有较低的功耗,适合低功耗应用,SPI通信在传输数据时消耗的功耗较高.</p>
+<h3 id="应用场景"><a href="#应用场景" class="headerlink" title="应用场景"></a>应用场景</h3><p>SPI的应用场景:</p>
+<p>高速数据传输:SPI通信可以实现高速的全双工数据传输,适用于需要快速传输大量数据的应用,如存储器、传感器、显示屏<br>短距离通信:SPI通信通常用于短距离的设备间通信(板级),因为它基于点对点连接,不适合长距离传输<br>需要高带宽的应用:SPI通信具有较高的带宽,适用于需要频繁传输数据的应用,如音频、视频等</p>
+<p>I2C的应用场景:<br>多设备通信:I2C支持多主机模式,可以连接多个主设备和从设备,适用于需要多个设备之间进行通信的应用场景,如传感器网络、嵌入式系统等。<br>低速设备通信:I2C通信速率较低,适用于对速率要求不高的应用,如温度传感器、电子存储器等。<br>简单硬件连接:I2C通信只需要两条线连接简单,适用于有限的硬件资源或空间受限的应用。</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">IIC, SPI</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/文档//" class="article-tag-list-link color3">文档</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2023/08/18/IIC%E5%92%8CSPI/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-实习纪实" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -1332,6 +1448,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">电子</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">IIC, SPI</a>
               </li>
             
             <div class="clearfix"></div>
